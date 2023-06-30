@@ -1,0 +1,8 @@
+.header {
+  padding: 1rem;
+  display: flex;
+  height: 6rem;
+  justify-content: flex-end;
+  background: #1488cc;
+  background-color: transparent;
+}/*# sourceMappingURL=Header.module.css.map */

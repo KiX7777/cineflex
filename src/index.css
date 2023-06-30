@@ -1,0 +1,67 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* display: flex; */
+  place-items: center;
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100dvh;
+  background: -webkit-linear-gradient(to top, #26d0ce, #1a4680);
+  background: linear-gradient(to top, #26d0ce, #1a2980);
+  background: #000;
+}
+html {
+  font-size: 62.5%;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/src/assets/Montserrat.ttf');
+}
+
+:root {
+  --fc: #000;
+  --fcDark: #fff;
+  --primary: #235295;
+  --accent: #26d0ce;
+  --secondary: #343753;
+  --boxshadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  --borderRadius: 1rem;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+body::-webkit-scrollbar-track {
+  background: #1a2980; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #26d0ce,
+    #1a2980
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #26d0ce, #1a2980);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--fcDark);
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

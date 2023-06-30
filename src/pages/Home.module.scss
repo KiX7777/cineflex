@@ -1,0 +1,31 @@
+@use '../assets/styles/mixins' as *;
+@use '../assets/styles/animations' as *;
+
+.home {
+  @include flex($direction: column);
+  width: 100%;
+}
+
+.search {
+  background-color: transparent;
+  border: 2px solid #26d0ce;
+  transition: 300ms ease;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 1.6rem;
+  padding: 1rem 1.5rem;
+  color: white;
+}
+
+.search::placeholder {
+  color: #eee;
+}
+.search:focus {
+  outline: none;
+  background-color: #1a2980;
+}
+
+.home.disableScroll {
+  height: calc(100dvh - 6rem);
+  overflow-y: hidden;
+}

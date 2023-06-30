@@ -1,0 +1,44 @@
+@use '../assets/styles/mixins' as *;
+
+.genreForm {
+  @include flex(space-around, center, column);
+  width: 100%;
+  font-size: 1.6rem;
+  height: 100%;
+
+  p {
+    font-size: 1.8rem;
+    color: var(--fc);
+  }
+  label {
+    color: var(--fc);
+  }
+
+  button {
+    font-size: 1.6rem;
+    padding: 1rem;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    border-radius: 1rem;
+  }
+
+  input {
+    accent-color: var(--accent);
+  }
+}
+
+.radioOption {
+  @include flex(initial, center);
+  width: 100%;
+  gap: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .genreForm {
+    p,
+    label {
+      color: var(--fcDark);
+    }
+  }
+}

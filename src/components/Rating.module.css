@@ -1,0 +1,15 @@
+.star {
+  width: 2.4rem;
+  stroke: black;
+  fill: var(--accent);
+  height: 2.4rem;
+}
+
+.starEmpty {
+  fill: #777;
+  stroke: black;
+}
+
+.starEmpty:hover {
+  fill: var(--accent);
+}/*# sourceMappingURL=Rating.module.css.map */

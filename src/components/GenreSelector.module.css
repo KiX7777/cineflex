@@ -1,0 +1,43 @@
+.genreForm {
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  flex-direction: column;
+  width: 100%;
+  font-size: 1.6rem;
+  height: 100%;
+}
+.genreForm p {
+  font-size: 1.8rem;
+  color: var(--fc);
+}
+.genreForm label {
+  color: var(--fc);
+}
+.genreForm button {
+  font-size: 1.6rem;
+  padding: 1rem;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+.genreForm input {
+  accent-color: var(--accent);
+}
+
+.radioOption {
+  display: flex;
+  justify-content: initial;
+  align-content: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .genreForm p,
+  .genreForm label {
+    color: var(--fcDark);
+  }
+}/*# sourceMappingURL=GenreSelector.module.css.map */
