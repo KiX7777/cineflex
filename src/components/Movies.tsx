@@ -38,6 +38,7 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const genre = state.genre;
   const loading = state.loading;
+  console.log(state.searchQuery);
   const rated = useContext(MovieContext).getRated;
   const movies = state.movies;
   const page = state.page;
@@ -79,13 +80,24 @@ const Movies = () => {
     }
   }, [searchParams, dispatch]);
 
+  useEffect(() => {
+    if (state.searchQuery === '' || state.searchQuery === undefined) {
+      searchParams.delete('search');
+    } else {
+      setSearchParams({
+        search: state.searchQuery as string,
+      });
+    }
+  }, [setSearchParams, state.searchQuery, searchParams]);
+
   return (
     <main className={classes.movies}>
       <button>RATE</button>
       <button
         onClick={(e) => {
           e.preventDefault();
-          rated();
+          searchParams.delete('search');
+          setSearchParams({ search: 'dadada' });
         }}
       >
         GET RATED
@@ -93,37 +105,39 @@ const Movies = () => {
       {loading && <h1 className={classes.loadingMsg}>Loading...</h1>}
       <div className={classes.moviesContainer}>{movieCards}</div>
       <RandomModal />
-      <div className={classes.pageButtons}>
-        {page !== 1 && (
-          <button
-            onClick={() => {
-              if (page === 1) {
-                return;
-              }
+      {!loading && (
+        <div className={classes.pageButtons}>
+          {page !== 1 && (
+            <button
+              onClick={() => {
+                if (page === 1) {
+                  return;
+                }
 
-              dispatch({
-                type: 'DECREMENTPAGE',
-              });
-            }}
-          >
-            BACK
-          </button>
-        )}
-        {page !== totalPages && (
-          <button
-            onClick={() => {
-              if (page === totalPages) {
-                return;
-              }
-              dispatch({
-                type: 'INCREMENTPAGE',
-              });
-            }}
-          >
-            NEXT PAGE
-          </button>
-        )}
-      </div>
+                dispatch({
+                  type: 'DECREMENTPAGE',
+                });
+              }}
+            >
+              BACK
+            </button>
+          )}
+          {page !== totalPages && (
+            <button
+              onClick={() => {
+                if (page === totalPages) {
+                  return;
+                }
+                dispatch({
+                  type: 'INCREMENTPAGE',
+                });
+              }}
+            >
+              NEXT PAGE
+            </button>
+          )}
+        </div>
+      )}
       <button
         onClick={() => {
           dispatch({
@@ -167,6 +181,13 @@ const Movies = () => {
             </g>
           </g>
         </svg>
+      </button>
+      <button
+        onClick={() => {
+          console.log(state);
+        }}
+      >
+        STATE
       </button>
     </main>
   );

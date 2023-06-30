@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import { Movie } from '../components/Movies';
+import { FetchedMov, Movie } from '../components/Movies';
 
 type MovieContextObj = {
   state: MoviesState;
@@ -11,7 +11,7 @@ export const MovieContext = createContext<MovieContextObj>(
   {} as MovieContextObj
 );
 
-const getRated = async () => {
+const getRated = async (): Promise<void> => {
   const sID = sessionStorage.getItem('sID');
   try {
     const res = await fetch(
@@ -20,8 +20,10 @@ const getRated = async () => {
     if (res.ok) {
       const data = await res.json();
       const ratedMovies = data.results;
+      const rated = data.results;
       console.log('Rated movies:', ratedMovies);
       sessionStorage.setItem('rated', JSON.stringify(ratedMovies));
+      return rated;
     } else {
       throw new Error('Failed to fetch rated movies.');
     }
@@ -37,6 +39,8 @@ interface MoviesState {
   genre: number | null;
   randomModal: boolean;
   loading: boolean;
+  chosenMovie?: Movie;
+  searchQuery?: string;
 }
 
 type MovieActions =
@@ -49,6 +53,7 @@ type MovieActions =
   | SetPage
   | SetTotalPages
   | SetLoading
+  | SetSearchQuery
   | Other;
 
 type SetMovies = {
@@ -82,6 +87,10 @@ type SetGenre = {
 type SetLoading = {
   type: 'SET_LOADING';
   payload: boolean;
+};
+type SetSearchQuery = {
+  type: 'SET_SEARCH';
+  payload: string;
 };
 
 type Other = {
@@ -134,16 +143,26 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         ...state,
         loading: action.payload,
       };
-
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        searchQuery: action.payload,
+      };
     case 'OTHER':
       return { ...state };
     default:
       return state;
   }
 };
+const localPage = sessionStorage.getItem('page') as string;
+console.log(localPage);
+if (!localPage) {
+  console.log('nema stranice lokalno');
+}
+
 const initialState: MoviesState = {
   movies: [],
-  page: 1,
+  page: +localPage || 1,
   totalPages: 0,
   genre: null,
   randomModal: false,

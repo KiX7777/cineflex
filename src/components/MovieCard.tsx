@@ -1,5 +1,6 @@
 import classes from './MovieCard.module.css';
 import { useNavigate } from 'react-router-dom';
+import Vote from './Vote';
 
 type MovieCardProps = {
   rating: number;
@@ -12,15 +13,6 @@ type MovieCardProps = {
 const MovieCard = ({ rating, title, overview, poster, id }: MovieCardProps) => {
   const navigate = useNavigate();
 
-  const getClassByRate = (vote: number): string => {
-    if (vote >= 8) {
-      return `${classes.green}`;
-    } else if (vote >= 5) {
-      return `${classes.orange}`;
-    } else {
-      return `${classes.red}`;
-    }
-  };
   const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
   return (
     <div
@@ -32,7 +24,7 @@ const MovieCard = ({ rating, title, overview, poster, id }: MovieCardProps) => {
       <img src={`${IMG_PATH + poster}`} alt={title} />
       <div className={classes.movieInfo}>
         <h3>{title}</h3>
-        <span className={getClassByRate(rating)}>{rating}</span>
+        <Vote rating={rating} />
       </div>
       <div className={classes.overview}>
         <div className={classes.blur}></div>

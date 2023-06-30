@@ -1,18 +1,19 @@
 .genreForm {
   display: flex;
   justify-content: space-around;
-  align-content: center;
+  align-items: center;
   flex-direction: column;
   width: 100%;
   font-size: 1.6rem;
   height: 100%;
 }
 .genreForm p {
-  font-size: 1.8rem;
-  color: var(--fc);
+  font-size: 2.4rem;
+  color: var(--fcDark);
 }
 .genreForm label {
-  color: var(--fc);
+  color: var(--fcDark);
+  font-size: 2rem;
 }
 .genreForm button {
   font-size: 1.6rem;
@@ -29,10 +30,14 @@
 .radioOption {
   display: flex;
   justify-content: initial;
-  align-content: center;
+  align-items: center;
   flex-direction: row;
   width: 100%;
   gap: 1rem;
+}
+
+.radioOption:not(:last-of-type) {
+  margin-bottom: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {

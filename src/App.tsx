@@ -1,21 +1,20 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useSearchParams } from 'react-router-dom';
 import Home from './pages/Home';
 import Layout from './UI/Layout';
 import MoviePage from './pages/MoviePage';
 import { Movie } from './components/Movies';
 import { FetchedMov } from './components/Movies';
+import { getCookie } from './util/helpers';
 import { useEffect, useContext, useCallback, useState } from 'react';
 import { MovieContext } from './Context/MoviesContext';
 
 const App = () => {
   const { dispatch } = useContext(MovieContext);
-  let API_URL: string;
-  const [loading, setLoading] = useState(true);
 
   const state = useContext(MovieContext).state;
   const page = state.page;
-
-  console.log(state);
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(state.totalPages);
   const genre = state.genre;
 
   // if (!genre) {
@@ -40,12 +39,12 @@ const App = () => {
 
   const getMovies = useCallback(
     async (pg: number = page): Promise<void> => {
+      const bearer = getCookie('bearerToken');
       const options = {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYmVlZmIyNWRhZTRmOWY5OWJjMzFjZDBlNzEzMzNmOSIsInN1YiI6IjYzZWE4NTFlMWYzZTYwMDA4NTkyMWUwOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.M2rW4zk5ShZ7EfK6ZVVlQnynIPoOb87NjFt_9RByNEc',
+          Authorization: `Bearer ${bearer} `,
         },
       };
 
@@ -79,7 +78,7 @@ const App = () => {
             overview: mov.overview,
             image: mov.backdrop_path,
             releaseDate: mov.release_date,
-            rating: mov.vote_average,
+            rating: +mov.vote_average.toFixed(1),
             id: mov.id,
             poster: mov.poster_path,
           };
@@ -110,8 +109,13 @@ const App = () => {
 
   useEffect(() => {
     // getRated();
-    getMovies();
-  }, [getMovies]);
+    getMovies(page);
+    sessionStorage.setItem('page', `${page}`);
+  }, [getMovies, page]);
+
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   return (
     <>

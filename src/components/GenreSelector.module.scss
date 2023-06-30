@@ -7,11 +7,12 @@
   height: 100%;
 
   p {
-    font-size: 1.8rem;
-    color: var(--fc);
+    font-size: 2.4rem;
+    color: var(--fcDark);
   }
   label {
-    color: var(--fc);
+    color: var(--fcDark);
+    font-size: 2rem;
   }
 
   button {
@@ -32,6 +33,9 @@
   @include flex(initial, center);
   width: 100%;
   gap: 1rem;
+}
+.radioOption:not(:last-of-type) {
+  margin-bottom: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {

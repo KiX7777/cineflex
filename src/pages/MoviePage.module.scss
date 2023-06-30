@@ -1,18 +1,25 @@
 @use '../assets/styles/mixins' as *;
 
+.loading {
+  font-size: 3.2rem;
+  text-align: center;
+  color: white;
+  margin-top: 5rem;
+}
 .moviePage {
   padding-top: 5rem;
   width: 100%;
   min-height: calc(100dvh - 6rem);
   @include flex($direction: column);
+  container-type: inline-size;
 
   .text {
     flex: 1;
     @include flex(space-between, initial);
     padding: 2rem;
     p {
-      font-size: 1.6rem;
-      color: var(--fc);
+      font-size: 1.6cqi;
+      color: var(--fcDark);
     }
 
     .movieInfo {
@@ -38,35 +45,10 @@
       // top: 2rem;
       border-bottom-right-radius: 1rem;
       background-color: black;
-      color: var(--fc);
+      color: var(--fcDark);
       padding: 2rem;
       filter: drop-shadow(1px 2px 5px rgb(38, 208, 206, 0.3));
-    }
-
-    .overview {
-      width: 50%;
-      padding: 2rem;
-      font-size: 1.6rem;
-      display: block;
-      height: 20%;
-      line-height: 1.5;
-      position: absolute;
-      border-radius: 1rem;
-      left: 0;
-      bottom: 0;
-      color: white;
-      z-index: 3;
-      overflow-y: auto;
-    }
-
-    .blur {
-      background-color: rgba($color: #fff, $alpha: 0.5);
-      backdrop-filter: blur(10px);
-      left: 0;
-      bottom: 0;
-      width: 50%;
-      height: 20%;
-      position: absolute;
+      font-size: 2cqi;
     }
   }
 }
@@ -81,25 +63,92 @@
   background: #2786ad;
   background: linear-gradient(0deg, black 0%, #2888ae00 100%);
 }
-.overview::-webkit-scrollbar {
-  background-color: transparent;
-  width: 0.5rem;
-}
-.overview::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: var(--accent);
+
+// @media (prefers-color-scheme: dark) {
+//   .moviePage {
+//     .text {
+//       p {
+//         color: var(--fcDark);
+//       }
+//     }
+
+//     .backdrop .title {
+//       color: var(--fcDark);
+//     }
+//   }
+// }
+
+@media screen and (width < 1600px) {
+  .moviePage {
+    .backdrop {
+      height: 60vh;
+      background-position: initial;
+    }
+  }
 }
 
-@media (prefers-color-scheme: dark) {
+.vote {
+  position: absolute;
+  right: 0;
+  font-size: 2rem;
+  padding: 1rem;
+  background-color: black;
+  border-bottom-left-radius: 1rem;
+}
+
+@media screen and (width > 1600px) {
   .moviePage {
-    .text {
-      p {
-        color: var(--fcDark);
+    .backdrop {
+      height: 70vh;
+      background-position: initial;
+
+      .title {
+        font-size: 2.4cqi;
+      }
+
+      .overview {
+        font-size: 1cqi;
       }
     }
 
-    .backdrop .title {
-      color: var(--fcDark);
+    .vote {
+      font-size: 1.6cqi;
+    }
+
+    .text {
+      p {
+        font-size: 1.2cqi;
+      }
+    }
+  }
+}
+
+@media screen and (width <500px) {
+  .moviePage {
+    gap: 5rem;
+    .backdrop {
+      background-position: center;
+
+      .title {
+        font-size: 4cqi;
+        max-width: 50%;
+      }
+
+      .overview {
+        width: 100%;
+        font-size: 3cqi;
+      }
+      .blur {
+        width: 100%;
+      }
+    }
+    .text {
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 5rem;
+      p {
+        font-size: 3.6cqi;
+      }
     }
   }
 }

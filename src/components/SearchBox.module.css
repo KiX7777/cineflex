@@ -29,10 +29,10 @@ input[type=text] {
   padding: 10px;
   transition: 0.4s all;
   border-radius: 10px;
-  color: var(--primary);
+  color: var(--fcDark);
   outline: none;
   border: none;
-  background-color: #efefef;
+  background-color: #333;
 }
 
 .inputbox {
@@ -93,4 +93,4 @@ form svg {
 .search.open .searchicon {
   transform: translateX(165px);
   box-shadow: none;
-}/*# sourceMappingURL=SearchBox.module.css.map */
+}/*# sourceMappingURL=searchBox.module.css.map */

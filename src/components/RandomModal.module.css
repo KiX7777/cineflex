@@ -7,7 +7,7 @@
   transform: translate(-50%, -50%);
   opacity: 0;
   visibility: hidden;
-  background-color: var(--primary);
+  background-color: #232323;
   border-radius: 1rem;
   box-shadow: 3px 3px 5px rgba(255, 255, 255, 0.1);
   z-index: 10;
@@ -24,13 +24,12 @@
   border: none;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
   border-radius: 1rem;
   cursor: pointer;
   position: absolute;
 }
 .closeModal svg {
-  fill: var(--primary);
+  fill: black;
   height: 100%;
   width: 100%;
 }
@@ -55,4 +54,10 @@
   opacity: 1;
   transition: 300ms ease;
   visibility: visible;
+}
+
+@media screen and (width < 500px) {
+  .randomModal {
+    width: 80%;
+  }
 }/*# sourceMappingURL=RandomModal.module.css.map */

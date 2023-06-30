@@ -1,8 +1,8 @@
 .star {
-  width: 2.4rem;
+  width: 2cqi;
+  height: 2cqi;
   stroke: black;
   fill: var(--accent);
-  height: 2.4rem;
 }
 
 .starEmpty {
@@ -12,4 +12,17 @@
 
 .starEmpty:hover {
   fill: var(--accent);
+}
+
+@media screen and (width > 1600px) {
+  .star {
+    width: 1.4cqi;
+    height: 1.4cqi;
+  }
+}
+@media screen and (width < 500px) {
+  .star {
+    width: 6cqi;
+    height: 6cqi;
+  }
 }/*# sourceMappingURL=Rating.module.css.map */

@@ -5,7 +5,6 @@ import { MovieContext } from '../Context/MoviesContext';
 
 const Home = () => {
   const state = useContext(MovieContext).state;
-  console.log('render');
   return (
     <div
       className={

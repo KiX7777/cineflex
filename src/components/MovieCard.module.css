@@ -5,7 +5,12 @@
   box-shadow: 0 4px 10px 2px rgba(41, 194, 199, 0.4);
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: initial;
+  align-items: initial;
+  flex-direction: column;
   cursor: pointer;
+  height: 45rem;
   border-radius: 10px;
   animation: show 400ms ease forwards;
 }
@@ -50,6 +55,7 @@
   margin-top: 0;
   font-size: 1.8rem;
   font-weight: 500;
+  width: 90%;
 }
 .movieInfo span {
   background-color: var(--primary);
@@ -80,7 +86,7 @@
   right: 0;
   display: flex;
   justify-content: initial;
-  align-content: initial;
+  align-items: initial;
   flex-direction: column;
   max-height: 24rem;
   transform: translateY(101%);

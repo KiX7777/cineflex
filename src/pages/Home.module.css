@@ -9,7 +9,7 @@
 .home {
   display: flex;
   justify-content: initial;
-  align-content: initial;
+  align-items: initial;
   flex-direction: column;
   width: 100%;
 }

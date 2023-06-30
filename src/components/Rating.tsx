@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import classes from './Rating.module.css';
 import { useState } from 'react';
 import { MovieContext } from '../Context/MoviesContext';
-const Rating = ({ id, myrating }: { id: number; myrating: number }) => {
+const Rating = ({
+  id,
+  myrating,
+}: {
+  id: number | undefined;
+  myrating?: number;
+}) => {
   const [setRating, setsetRating] = useState<number>(myrating || 0);
   const [hoveredRating, setHoveredRating] = useState<number>(0);
   const rated = useContext(MovieContext).getRated;
