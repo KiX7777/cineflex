@@ -101,7 +101,11 @@ const App = () => {
   );
 
   useEffect(() => {
-    createSess();
+    const localSession = sessionStorage.getItem('sID');
+    console.log(localSession);
+    if (!localSession) {
+      createSess();
+    }
   }, []);
 
   useEffect(() => {

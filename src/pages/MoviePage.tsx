@@ -1,20 +1,28 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MovieContext } from '../Context/MoviesContext';
 import classes from './MoviePage.module.css';
 import { genreMap } from '../util/genres';
 import Rating from '../components/Rating';
-import { Movie } from '../components/Movies';
+import { FetchedMov, Movie } from '../components/Movies';
 
 const MoviePage = () => {
   const id = useParams().id as string;
   const ctx = useContext(MovieContext);
+  const rated = ctx.getRated;
   let movies;
   movies = ctx.state.movies;
   console.log(movies);
   if (movies.length === 0) {
     movies = JSON.parse(sessionStorage.getItem('movies') as string);
   }
+
+  const ratedMovies = JSON.parse(sessionStorage.getItem('rated') as string);
+  console.log(ratedMovies);
+
+  useEffect(() => {
+    rated();
+  }, [rated]);
 
   const getFlag = (c: string) =>
     String.fromCodePoint(
@@ -23,6 +31,14 @@ const MoviePage = () => {
 
   const movie = movies.find((move: Movie) => move.id === +id) as Movie;
   console.log(movie);
+  let isRated, myRating;
+  if (ratedMovies) {
+    isRated = ratedMovies.find((mov: FetchedMov) => mov.title === movie.title);
+    if (isRated) {
+      myRating = isRated.rating;
+    }
+  }
+  console.log(myRating);
 
   return (
     <div className={classes.moviePage}>
@@ -53,7 +69,7 @@ const MoviePage = () => {
           </p>
         </div>
         <div className={classes.ratingStars}>
-          <Rating id={movie.id} />
+          <Rating id={movie.id} myrating={myRating} />
         </div>
       </div>
     </div>

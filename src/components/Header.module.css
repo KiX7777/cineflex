@@ -5,4 +5,8 @@
   justify-content: flex-end;
   background: #1488cc;
   background-color: transparent;
+}
+
+button {
+  margin-right: auto;
 }/*# sourceMappingURL=Header.module.css.map */

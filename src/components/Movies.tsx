@@ -38,7 +38,7 @@ const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const genre = state.genre;
   const loading = state.loading;
-
+  const rated = useContext(MovieContext).getRated;
   const movies = state.movies;
   const page = state.page;
   const totalPages = state.totalPages;
@@ -85,8 +85,7 @@ const Movies = () => {
       <button
         onClick={(e) => {
           e.preventDefault();
-
-          // getRated();
+          rated();
         }}
       >
         GET RATED
