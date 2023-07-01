@@ -38,8 +38,8 @@ const App = () => {
   };
 
   const getMovies = useCallback(
-    async (pg: number = page): Promise<void> => {
-      const bearer = getCookie('bearerToken');
+    async (pg: number | 'SEARCH' = page): Promise<void> => {
+      const bearer = sessionStorage.getItem('bearer');
       const options = {
         method: 'GET',
         headers: {
@@ -108,14 +108,17 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // getRated();
-    getMovies(page);
-    sessionStorage.setItem('page', `${page}`);
+    if (page === 'SEARCH') {
+      return;
+    } else {
+      getMovies(page);
+      sessionStorage.setItem('page', `${page}`);
+    }
   }, [getMovies, page]);
 
-  useEffect(() => {
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   return () => {};
+  // }, []);
 
   return (
     <>

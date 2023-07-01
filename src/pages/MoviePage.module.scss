@@ -9,7 +9,7 @@
 .moviePage {
   padding-top: 5rem;
   width: 100%;
-  min-height: calc(100dvh - 6rem);
+  max-height: calc(100dvh - 6rem);
   @include flex($direction: column);
   container-type: inline-size;
 

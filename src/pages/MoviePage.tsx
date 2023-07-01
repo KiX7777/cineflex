@@ -4,9 +4,12 @@ import { MovieContext } from '../Context/MoviesContext';
 import classes from './MoviePage.module.css';
 import { genreMap, getCookie } from '../util/helpers';
 import Rating from '../components/Rating';
-import { FetchedMov, Movie } from '../components/Movies';
-import Vote from '../components/Vote';
+import { Movie } from '../components/Movies';
 import ImageGallery from '../components/ImageGallery';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import { AddToCalendarButton } from 'add-to-calendar-button-react';
+import MoviePageSkeleton from '../UI/MoviePageSkeleton';
 
 type DetailedMovie = Movie & {
   productionCompanies: {
@@ -16,6 +19,7 @@ type DetailedMovie = Movie & {
   poster: string;
   releaseDate: string;
   images?: string[];
+  status: string;
 };
 
 const MoviePage = () => {
@@ -33,7 +37,7 @@ const MoviePage = () => {
 
   const getMovie = useCallback(
     async (ID: number) => {
-      const bearer = getCookie('bearerToken');
+      const bearer = sessionStorage.getItem('bearer');
       try {
         const options = {
           method: 'GET',
@@ -47,11 +51,9 @@ const MoviePage = () => {
           `https://api.themoviedb.org/3/movie/${ID}?language=en-US`,
           options
         );
-        type Genre = {
-          [key: string]: string | number;
-        };
 
         const data = await res.json();
+        console.log(data);
         const genres = [];
         for (const genre in data.genres) {
           const g = data.genres[genre].name;
@@ -70,10 +72,12 @@ const MoviePage = () => {
           rating: data.vote_average.toFixed(1),
           id: data.id,
           poster: data.poster_path,
+          status: data.status,
           images,
           homepage: data.homepage,
           productionCompanies: data.production_companies,
         };
+
         console.log(movie);
         rated();
         const ratedMovies = JSON.parse(
@@ -106,7 +110,7 @@ const MoviePage = () => {
   };
 
   const getMovieImgs = async (id: number): Promise<string[]> => {
-    const bearer = getCookie('bearerToken');
+    const bearer = sessionStorage.getItem('bearer');
 
     const options = {
       method: 'GET',
@@ -141,7 +145,7 @@ const MoviePage = () => {
   });
 
   if (!movie) {
-    return <h1 className={classes.loading}>Loading...</h1>;
+    return <MoviePageSkeleton />;
   } else {
     return (
       <div className={classes.moviePage}>
@@ -155,11 +159,12 @@ const MoviePage = () => {
 
         <div className={classes.text}>
           <div className={classes.movieInfo}>
-            {
+            {movie.status === 'Released' && (
               <p>
                 <strong>Rating</strong>: {movie?.rating}
               </p>
-            }
+            )}
+
             <div className={classes.genres}>
               <p>
                 <strong>Genres: </strong>
@@ -167,20 +172,42 @@ const MoviePage = () => {
                 {movie?.genres.join(', ')}
               </p>
             </div>
-            <p>
-              <strong>Release date: </strong>
-              {`${new Date(movie?.releaseDate as string).toLocaleDateString()}`}
-            </p>
+            {movie.status === 'Released' && (
+              <p>
+                <strong>Release date: </strong>
+                {`${new Date(
+                  movie?.releaseDate as string
+                ).toLocaleDateString()}`}
+              </p>
+            )}
             <p>
               <strong>Language:</strong> {getFlag(movie?.language as string)}
+            </p>
+            <p>
+              {movie.status.includes('Production') &&
+                `To be released ${new Date(
+                  movie.releaseDate
+                ).toLocaleDateString()}`}
             </p>
 
             {/* {productionComps} */}
           </div>
-          <div className={classes.ratingStars}>
-            {myrating && <Rating id={movie?.id} myrating={myrating} />}
-            {!myrating && <Rating id={movie?.id} myrating={myrating} />}
-          </div>
+          {movie.status === 'Released' && (
+            <div className={classes.ratingStars}>
+              {myrating && <Rating id={movie?.id} myrating={myrating} />}
+              {!myrating && <Rating id={movie?.id} myrating={myrating} />}
+            </div>
+          )}
+          {movie.status.includes('Production') && (
+            <AddToCalendarButton
+              name={movie.title}
+              startDate={movie.releaseDate}
+              description={`Release of ${movie.title}`}
+              lightMode='dark'
+              hideCheckmark
+              options={['Google', 'Apple', 'iCal']}
+            ></AddToCalendarButton>
+          )}
         </div>
       </div>
     );

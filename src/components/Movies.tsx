@@ -105,7 +105,7 @@ const Movies = () => {
       {loading && <h1 className={classes.loadingMsg}>Loading...</h1>}
       <div className={classes.moviesContainer}>{movieCards}</div>
       <RandomModal />
-      {!loading && (
+      {!loading && page !== 'SEARCH' && (
         <div className={classes.pageButtons}>
           {page !== 1 && (
             <button

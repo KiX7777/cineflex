@@ -25,4 +25,7 @@
     width: 6cqi;
     height: 6cqi;
   }
+  .starEmpty:hover {
+    fill: none;
+  }
 }/*# sourceMappingURL=Rating.module.css.map */

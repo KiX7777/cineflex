@@ -9,4 +9,17 @@
 
 .header button {
   margin-right: auto;
+}
+
+.homeBtn {
+  width: 4rem;
+  height: 4rem;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+}
+.homeBtn svg {
+  height: 100%;
+  width: 100%;
+  fill: var(--accent);
 }/*# sourceMappingURL=Header.module.css.map */

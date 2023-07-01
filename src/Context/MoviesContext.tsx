@@ -34,13 +34,14 @@ const getRated = async (): Promise<void> => {
 
 interface MoviesState {
   movies: Movie[];
-  page: number;
+  page: number | 'SEARCH';
   totalPages: number;
   genre: number | null;
   randomModal: boolean;
   loading: boolean;
   chosenMovie?: Movie;
   searchQuery?: string;
+  error?: string;
 }
 
 type MovieActions =
@@ -53,6 +54,7 @@ type MovieActions =
   | SetPage
   | SetTotalPages
   | SetLoading
+  | SetError
   | SetSearchQuery
   | Other;
 
@@ -68,7 +70,7 @@ type DecrementPage = {
 };
 type SetPage = {
   type: 'SETPAGE';
-  payload: number;
+  payload: number | 'SEARCH';
 };
 type SetTotalPages = {
   type: 'SETTOTAL';
@@ -93,6 +95,11 @@ type SetSearchQuery = {
   payload: string;
 };
 
+type SetError = {
+  type: 'SET_ERROR';
+  payload: string;
+};
+
 type Other = {
   type: 'OTHER';
 };
@@ -104,15 +111,28 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         movies: action.payload,
       };
     case 'INCREMENTPAGE':
+      if (typeof state.page === 'number') {
+        return {
+          ...state,
+          page: state.page + 1,
+        };
+      } else {
+        return state;
+      }
+    case 'SET_ERROR':
       return {
         ...state,
-        page: state.page + 1,
+        error: action.payload,
       };
     case 'DECREMENTPAGE':
-      return {
-        ...state,
-        page: state.page - 1,
-      };
+      if (typeof state.page === 'number') {
+        return {
+          ...state,
+          page: state.page - 1,
+        };
+      } else {
+        return state;
+      }
     case 'SETPAGE':
       return {
         ...state,
