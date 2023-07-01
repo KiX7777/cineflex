@@ -92,9 +92,22 @@
   color: var(--accent);
 }
 
+.yt {
+  z-index: 50;
+}
+
 @media screen and (width > 1800px) {
   .swiper {
     height: 70vh;
+  }
+
+  .yt {
+    width: 50%;
+    height: 100%;
+  }
+  .yt iframe {
+    width: 100%;
+    height: 100%;
   }
 
   .swiper-slide img {
@@ -102,6 +115,9 @@
   }
 }
 @media screen and (width < 500px) {
+  .swiper {
+    height: 30vh;
+  }
   .swiper-slide {
     width: 100%;
     height: 100%;
@@ -128,5 +144,11 @@
 
   .swiper h1 {
     font-size: 3.2cqi;
+  }
+
+  .yt,
+  .yt iframe {
+    width: 100%;
+    height: 100%;
   }
 }

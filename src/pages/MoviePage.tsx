@@ -10,6 +10,7 @@ import ImageGallery from '../components/ImageGallery';
 // @ts-expect-error
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
 import MoviePageSkeleton from '../UI/MoviePageSkeleton';
+import YouTube from 'react-youtube';
 
 type DetailedMovie = Movie & {
   productionCompanies: {
@@ -20,12 +21,12 @@ type DetailedMovie = Movie & {
   releaseDate: string;
   images?: string[];
   status: string;
+  videos?: string[];
 };
 
 const MoviePage = () => {
   const id = useParams().id as string;
   const ctx = useContext(MovieContext);
-  const dispatch = ctx.dispatch;
   const rated = ctx.getRated;
   const [movie, setmovie] = useState<DetailedMovie>();
   const [myrating, setMyRating] = useState<number>();
@@ -60,6 +61,7 @@ const MoviePage = () => {
           genres.push(g);
         }
         const images: Awaited<string[]> = (await getMovieImgs(ID)).slice(0, 10);
+        const videos: Awaited<string[]> = (await getVideos(ID)).slice(0, 5);
 
         const movie: DetailedMovie = {
           genres: genres,
@@ -74,11 +76,11 @@ const MoviePage = () => {
           poster: data.poster_path,
           status: data.status,
           images,
+          videos,
           homepage: data.homepage,
           productionCompanies: data.production_companies,
         };
 
-        console.log(movie);
         rated();
         const ratedMovies = JSON.parse(
           sessionStorage.getItem('rated') as string
@@ -88,7 +90,6 @@ const MoviePage = () => {
         if (israted) {
           setMyRating(israted.rating);
         }
-        getMovieImgs(ID);
         setmovie(movie);
       } catch (error) {
         console.log(error);
@@ -135,6 +136,36 @@ const MoviePage = () => {
     return imgs;
   };
 
+  const getVideos = async (id: number): Promise<string[]> => {
+    const bearer = sessionStorage.getItem('bearer');
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${bearer} `,
+      },
+    };
+
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
+      options
+    );
+
+    const data = await res.json();
+    console.log(data);
+    interface VideoType {
+      [key: string]: string | number | null;
+    }
+    const videos = data.results
+      .filter((vid: VideoType) => vid.site === 'YouTube')
+      .map((v: VideoType) => v.key);
+
+    console.log(videos);
+
+    return videos;
+  };
+
   const productionComps = movie?.productionCompanies.map((comp) => {
     return (
       <div key={comp.id}>
@@ -154,8 +185,10 @@ const MoviePage = () => {
             images={movie?.images as string[]}
             title={movie.title}
             overview={movie.overview}
+            videos={movie.videos}
           />
         )}
+        {/* <YouTube videoId='qqur-mdN69k' className={classes.yt} /> */}
 
         <div className={classes.text}>
           <div className={classes.movieInfo}>
