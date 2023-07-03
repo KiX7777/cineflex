@@ -39,29 +39,10 @@ html {
 
 body::-webkit-scrollbar {
   width: 8px;
-}
-body::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-body::-webkit-scrollbar-track {
-  background: #1a2980; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to top,
-    #26d0ce,
-    #1a2980
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #26d0ce, #1a2980);
+  background-color: black;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--fcDark);
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+body::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 1rem;
 }

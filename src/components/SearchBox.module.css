@@ -74,6 +74,7 @@ input[type=text] {
 
 .inputbox {
   border-radius: 20px;
+  margin-right: 2.4rem;
 }
 
 .form {
@@ -120,19 +121,13 @@ form svg {
   stroke: white;
 }
 
-.inputbox {
-  position: absolute;
-  top: 10px;
-  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-}
-
 .search.open .formInput {
   width: 200px;
   transform: translateX(-10px);
 }
 
 .search.open .searchicon {
-  transform: translateX(165px);
+  transform: translateX(175px);
   box-shadow: none;
 }
 
@@ -144,5 +139,10 @@ form svg {
   to {
     display: block;
     opacity: 1;
+  }
+}
+@media screen and (width < 500px) {
+  .inputbox {
+    margin-right: 1rem;
   }
 }/*# sourceMappingURL=searchBox.module.css.map */

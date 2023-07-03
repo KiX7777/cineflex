@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import { useState } from 'react';
 import classes from './GenreSelector.module.css';
 
-import { MovieContext } from '../Context/MoviesContext';
-
+import { MovieContext } from '../Store/MoviesContext';
+import { useNavigate } from 'react-router-dom';
 const GenreSelector = () => {
   const [selectedGenre, setSelectedGenre] = useState<number>();
+  const navigate = useNavigate();
 
   // const getRandom = async (pg) => {
   //   try {
@@ -167,11 +168,46 @@ const GenreSelector = () => {
       <button
         onClick={() => {
           dispatch({
+            type: 'SET_RANDOM',
+            payload: false,
+          });
+          dispatch({
             type: 'CLOSERANDOM',
           });
+          navigate('/');
         }}
       >
-        CONFIRM
+        SEE ALL
+      </button>
+      <button
+        type='button'
+        onClick={() => {
+          // dispatch({
+          //   type: 'CLOSERANDOM',
+          // });
+          const randomNumber = Math.floor(Math.random() * 100);
+
+          if (selectedGenre) {
+            dispatch({
+              type: 'SET_RANDOM',
+              payload: true,
+            });
+            dispatch({
+              type: 'SET_GENRE',
+              payload: selectedGenre,
+            });
+            dispatch({
+              type: 'SETPAGE',
+              payload: randomNumber,
+            });
+            dispatch({
+              type: 'CLOSERANDOM',
+            });
+            navigate('/');
+          }
+        }}
+      >
+        RANDOM MOVIE
       </button>
     </form>
   );

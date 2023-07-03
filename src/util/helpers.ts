@@ -85,15 +85,22 @@ export const genreMap = new Map(
   ])
 );
 
-(() => {
+export const setBearer = () => {
   document.cookie = `bearerToken=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYmVlZmIyNWRhZTRmOWY5OWJjMzFjZDBlNzEzMzNmOSIsInN1YiI6IjYzZWE4NTFlMWYzZTYwMDA4NTkyMWUwOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.M2rW4zk5ShZ7EfK6ZVVlQnynIPoOb87NjFt_9RByNEc;max-age=31536000; path=/; secure; `;
   sessionStorage.setItem(
     'bearer',
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYmVlZmIyNWRhZTRmOWY5OWJjMzFjZDBlNzEzMzNmOSIsInN1YiI6IjYzZWE4NTFlMWYzZTYwMDA4NTkyMWUwOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.M2rW4zk5ShZ7EfK6ZVVlQnynIPoOb87NjFt_9RByNEc'
   );
-})();
+};
 
 export function getCookie(name: string) {
   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
   if (match) return match[2];
 }
+export const getFlag = (c: string) => {
+  if (c) {
+    return String.fromCodePoint(
+      ...[...c.toUpperCase()].map((x) => 0x1f1a5 + x.charCodeAt(0))
+    );
+  }
+};

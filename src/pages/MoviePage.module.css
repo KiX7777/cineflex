@@ -6,14 +6,15 @@
 }
 
 .moviePage {
-  padding-top: 5rem;
+  padding-top: 2rem;
   width: 100%;
-  max-height: calc(100dvh - 6rem);
+  min-height: calc(100dvh - 6rem);
   display: flex;
   justify-content: initial;
   align-items: initial;
   flex-direction: column;
   container-type: inline-size;
+  grid-column: 2;
 }
 .moviePage .text {
   flex: 1;
@@ -36,6 +37,22 @@
 }
 .moviePage .text .genres {
   display: flex;
+}
+.moviePage .addFavoriteBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  fill: #444;
+  width: 5rem;
+  height: 5rem;
+  transition: fill 400ms ease;
+}
+.moviePage .addFavoriteBtn svg {
+  width: 100%;
+  height: 100%;
+}
+.moviePage .addFavoriteBtn.fav {
+  fill: var(--accent);
 }
 .moviePage .backdrop {
   width: 100%;

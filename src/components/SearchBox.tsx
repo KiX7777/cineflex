@@ -1,4 +1,4 @@
-import { MovieContext } from '../Context/MoviesContext';
+import { MovieContext } from '../Store/MoviesContext';
 import classes from './searchBox.module.css';
 import { Movie, FetchedMov } from './Movies';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -63,6 +63,7 @@ const SearchBox = () => {
           poster: mov.poster_path,
         };
         mvs.push(movie);
+        console.log(mvs);
 
         dispatch({
           type: 'SETMOV',
@@ -72,9 +73,12 @@ const SearchBox = () => {
       });
 
       dispatch({ type: 'SET_LOADING', payload: false });
+      dispatch({ type: 'SET_ERROR', payload: '' });
+
       sessionStorage.setItem('movies', JSON.stringify(mvs));
 
       if (!res.ok) {
+        dispatch({ type: 'SET_ERROR', payload: 'Problem while getting data.' });
         throw new Error('Problem while getting data.');
       }
     } catch (error) {
@@ -84,6 +88,10 @@ const SearchBox = () => {
 
   const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
+    dispatch({
+      type: 'SET_RANDOM',
+      payload: false,
+    });
     movieSearch(searchQuery);
     dispatch({ type: 'SET_SEARCH', payload: searchQuery });
 

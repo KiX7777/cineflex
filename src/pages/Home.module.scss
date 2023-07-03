@@ -4,6 +4,8 @@
 .home {
   @include flex($direction: column);
   width: 100%;
+  height: 100%;
+  grid-column: 2;
 }
 
 .search {

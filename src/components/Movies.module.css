@@ -16,7 +16,7 @@
 }
 
 .loadingMsg {
-  color: var(--fcDark);
+  color: var(--accent);
 }
 
 .pageButtons {
@@ -42,32 +42,4 @@
 }
 .pageButtons button:hover {
   transform: scale(1.04);
-}
-
-.rdm {
-  margin-right: auto;
-  width: 4rem;
-  height: 4rem;
-  cursor: pointer;
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  border: none;
-  border-radius: 1rem;
-  padding: 0.5rem;
-  transition: background-color 300ms ease;
-}
-.rdm svg {
-  width: 100%;
-  height: 100%;
-  fill: #232323;
-  transition: fill 300ms ease;
-}
-
-.rdm:hover {
-  background-color: var(--accent);
-}
-
-.rdm:hover svg {
-  fill: white;
 }/*# sourceMappingURL=Movies.module.css.map */

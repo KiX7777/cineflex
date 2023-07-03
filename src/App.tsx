@@ -1,20 +1,17 @@
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { Routes, Route, useSearchParams, useNavigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Layout from './UI/Layout';
 import MoviePage from './pages/MoviePage';
 import { Movie } from './components/Movies';
 import { FetchedMov } from './components/Movies';
-import { getCookie } from './util/helpers';
 import { useEffect, useContext, useCallback, useState } from 'react';
-import { MovieContext } from './Context/MoviesContext';
+import { MovieContext } from './Store/MoviesContext';
 
 const App = () => {
   const { dispatch } = useContext(MovieContext);
-
+  const navigate = useNavigate();
   const state = useContext(MovieContext).state;
   const page = state.page;
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(state.totalPages);
   const genre = state.genre;
 
   // if (!genre) {
@@ -38,7 +35,7 @@ const App = () => {
   };
 
   const getMovies = useCallback(
-    async (pg: number | 'SEARCH' = page): Promise<void> => {
+    async (pg: number | 'SEARCH' | 'FAVORITES' = page): Promise<void> => {
       const bearer = sessionStorage.getItem('bearer');
       const options = {
         method: 'GET',
@@ -48,52 +45,57 @@ const App = () => {
         },
       };
 
-      try {
-        dispatch({ type: 'SET_LOADING', payload: true });
+      if (typeof page !== 'number') {
+        return;
+      } else {
+        try {
+          dispatch({ type: 'SET_LOADING', payload: true });
 
-        let API_URL;
-        if (!genre) {
-          API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc`;
-        } else {
-          API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc&with_genres=${genre}`;
-        }
+          let API_URL;
+          if (!genre) {
+            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc`;
+          } else {
+            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc&with_genres=${genre}`;
+          }
 
-        //  API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
-        const res = await fetch(API_URL, options);
+          //  API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
+          const res = await fetch(API_URL, options);
 
-        const data = await res.json();
-        console.log(data);
-        dispatch({
-          type: 'SETTOTAL',
-          payload: data.total_pages,
-        });
-
-        const mvs: Movie[] = [];
-        data.results.forEach((mov: FetchedMov) => {
-          const movie: Movie = {
-            genres: mov.genre_ids,
-            language:
-              mov.original_language === 'en' ? 'gb' : mov.original_language,
-            title: mov.title,
-            overview: mov.overview,
-            image: mov.backdrop_path,
-            releaseDate: mov.release_date,
-            rating: +mov.vote_average.toFixed(1),
-            id: mov.id,
-            poster: mov.poster_path,
-          };
-          mvs.push(movie);
-
+          const data = await res.json();
+          console.log(data);
           dispatch({
-            type: 'SETMOV',
-            payload: mvs,
+            type: 'SETTOTAL',
+            payload: data.total_pages,
           });
-        });
 
-        dispatch({ type: 'SET_LOADING', payload: false });
-        sessionStorage.setItem('movies', JSON.stringify(mvs));
-      } catch (error) {
-        console.error(error);
+          const mvs: Movie[] = [];
+          data.results.forEach((mov: FetchedMov) => {
+            const movie: Movie = {
+              genres: mov.genre_ids,
+              language:
+                mov.original_language === 'en' ? 'gb' : mov.original_language,
+              title: mov.title,
+              overview: mov.overview,
+              image: mov.backdrop_path,
+              releaseDate: mov.release_date,
+              rating: +mov.vote_average.toFixed(1),
+              id: mov.id,
+              poster: mov.poster_path,
+            };
+
+            mvs.push(movie);
+
+            dispatch({
+              type: 'SETMOV',
+              payload: mvs,
+            });
+          });
+
+          dispatch({ type: 'SET_LOADING', payload: false });
+          sessionStorage.setItem('movies', JSON.stringify(mvs));
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
     [dispatch, genre, page]
@@ -108,7 +110,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (page === 'SEARCH') {
+    if (page === 'SEARCH' || page === 'FAVORITES') {
       return;
     } else {
       getMovies(page);

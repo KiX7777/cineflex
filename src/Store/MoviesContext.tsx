@@ -1,17 +1,80 @@
-import { createContext, useReducer } from 'react';
-import { FetchedMov, Movie } from '../components/Movies';
+import { createContext, useReducer, useEffect } from 'react';
+import { Movie } from '../components/Movies';
 
 type MovieContextObj = {
   state: MoviesState;
   dispatch: React.Dispatch<MovieActions>;
   getRated: () => void;
+  getMovieImgs: (id: number) => Promise<string[]>;
+  getVideos: (id: number) => Promise<string[]>;
 };
 
 export const MovieContext = createContext<MovieContextObj>(
   {} as MovieContextObj
 );
 
+export const randomMovie = (movies: Movie[]) => {
+  const randomNumber = Math.floor(Math.random() * 20);
+  const randomMovie = movies[randomNumber];
+  console.log(randomMovie);
+};
+
+const getMovieImgs = async (id: number): Promise<string[]> => {
+  // get the movie images and return the array of img URLs
+  const bearer = sessionStorage.getItem('bearer');
+
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/images`,
+    options
+  );
+  const data = await res.json();
+  interface ImageType {
+    [key: string]: string | number | null;
+  }
+
+  const imgs: string[] = data.backdrops.map(
+    (img: ImageType) => `https://image.tmdb.org/t/p/w1280${img.file_path}`
+  );
+  return imgs;
+};
+
+const getVideos = async (id: number): Promise<string[]> => {
+  //get the movie videos and return YouTube keys
+  const bearer = sessionStorage.getItem('bearer');
+
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${bearer} `,
+    },
+  };
+
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
+    options
+  );
+
+  const data = await res.json();
+  interface VideoType {
+    [key: string]: string | number | null;
+  }
+  const videos = data.results
+    .filter((vid: VideoType) => vid.site === 'YouTube')
+    .map((v: VideoType) => v.key);
+
+  return videos;
+};
+
 const getRated = async (): Promise<void> => {
+  // get all the rated movies for the guest user - session only
   const sID = sessionStorage.getItem('sID');
   try {
     const res = await fetch(
@@ -21,7 +84,6 @@ const getRated = async (): Promise<void> => {
       const data = await res.json();
       const ratedMovies = data.results;
       const rated = data.results;
-      console.log('Rated movies:', ratedMovies);
       sessionStorage.setItem('rated', JSON.stringify(ratedMovies));
       return rated;
     } else {
@@ -34,7 +96,8 @@ const getRated = async (): Promise<void> => {
 
 interface MoviesState {
   movies: Movie[];
-  page: number | 'SEARCH';
+  favorites: Movie[];
+  page: number | 'SEARCH' | 'FAVORITES';
   totalPages: number;
   genre: number | null;
   randomModal: boolean;
@@ -42,10 +105,14 @@ interface MoviesState {
   chosenMovie?: Movie;
   searchQuery?: string;
   error?: string;
+  sidebarOpen: boolean;
+  random: boolean;
 }
 
 type MovieActions =
   | SetMovies
+  | AddFavorite
+  | DeleteFavorite
   | IncrementPage
   | DecrementPage
   | ToggleRandom
@@ -54,13 +121,25 @@ type MovieActions =
   | SetPage
   | SetTotalPages
   | SetLoading
+  | OpenSidebar
+  | CloseSidebar
+  | ToggleSidebar
   | SetError
   | SetSearchQuery
+  | SetRandom
   | Other;
 
 type SetMovies = {
   type: 'SETMOV';
   payload: Movie[];
+};
+type AddFavorite = {
+  type: 'ADD_FAV';
+  payload: Movie;
+};
+type DeleteFavorite = {
+  type: 'DEL_FAV';
+  payload: number;
 };
 type IncrementPage = {
   type: 'INCREMENTPAGE';
@@ -70,7 +149,7 @@ type DecrementPage = {
 };
 type SetPage = {
   type: 'SETPAGE';
-  payload: number | 'SEARCH';
+  payload: number | 'SEARCH' | 'FAVORITES';
 };
 type SetTotalPages = {
   type: 'SETTOTAL';
@@ -84,11 +163,20 @@ type ToggleRandom = {
 };
 type SetGenre = {
   type: 'SET_GENRE';
-  payload: number;
+  payload: number | null;
 };
 type SetLoading = {
   type: 'SET_LOADING';
   payload: boolean;
+};
+type OpenSidebar = {
+  type: 'OPEN_SIDEBAR';
+};
+type ToggleSidebar = {
+  type: 'TOGGLE_SIDEBAR';
+};
+type CloseSidebar = {
+  type: 'CLOSE_SIDEBAR';
 };
 type SetSearchQuery = {
   type: 'SET_SEARCH';
@@ -98,6 +186,10 @@ type SetSearchQuery = {
 type SetError = {
   type: 'SET_ERROR';
   payload: string;
+};
+type SetRandom = {
+  type: 'SET_RANDOM';
+  payload: boolean;
 };
 
 type Other = {
@@ -109,6 +201,16 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
       return {
         ...state,
         movies: action.payload,
+      };
+    case 'ADD_FAV':
+      return {
+        ...state,
+        favorites: [...state.favorites, action.payload],
+      };
+    case 'DEL_FAV':
+      return {
+        ...state,
+        favorites: state.favorites.filter((mov) => mov.id !== action.payload),
       };
     case 'INCREMENTPAGE':
       if (typeof state.page === 'number') {
@@ -143,6 +245,21 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         ...state,
         totalPages: state.totalPages,
       };
+    case 'TOGGLE_SIDEBAR':
+      return {
+        ...state,
+        sidebarOpen: !state.sidebarOpen,
+      };
+    case 'CLOSE_SIDEBAR':
+      return {
+        ...state,
+        sidebarOpen: false,
+      };
+    case 'OPEN_SIDEBAR':
+      return {
+        ...state,
+        sidebarOpen: true,
+      };
     case 'TOGGLE_RANDOM':
       return {
         ...state,
@@ -168,6 +285,11 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         ...state,
         searchQuery: action.payload,
       };
+    case 'SET_RANDOM':
+      return {
+        ...state,
+        random: action.payload,
+      };
     case 'OTHER':
       return { ...state };
     default:
@@ -175,10 +297,6 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
   }
 };
 const localPage = sessionStorage.getItem('page') as string;
-console.log(localPage);
-if (!localPage) {
-  console.log('nema stranice lokalno');
-}
 
 const initialState: MoviesState = {
   movies: [],
@@ -187,10 +305,17 @@ const initialState: MoviesState = {
   genre: null,
   randomModal: false,
   loading: false,
+  sidebarOpen: false,
+  favorites: [],
+  random: false,
 };
 
 export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(movieReducer, initialState);
+
+  useEffect(() => {
+    sessionStorage.setItem('favs', JSON.stringify(state.favorites));
+  }, [state.favorites]);
 
   return (
     <MovieContext.Provider
@@ -198,6 +323,8 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
         state,
         dispatch,
         getRated,
+        getMovieImgs,
+        getVideos,
       }}
     >
       {children}

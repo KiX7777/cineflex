@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import classes from './Rating.module.css';
 import { useState } from 'react';
-import { MovieContext } from '../Context/MoviesContext';
+import { MovieContext } from '../Store/MoviesContext';
 const Rating = ({
   id,
   myrating,

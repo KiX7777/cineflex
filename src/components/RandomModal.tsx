@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import classes from './RandomModal.module.css';
-import { MovieContext } from '../Context/MoviesContext';
+import { MovieContext } from '../Store/MoviesContext';
 import GenreSelector from './GenreSelector';
+import { useNavigate } from 'react-router-dom';
 
 const RandomModal = () => {
   const randomMenu = useContext(MovieContext).state.randomModal;
   const dispatch = useContext(MovieContext).dispatch;
+  const navigate = useNavigate();
   return (
     <>
       <div
@@ -19,6 +21,7 @@ const RandomModal = () => {
 
         <button
           onClick={() => {
+            // navigate('/');
             dispatch({
               type: 'CLOSERANDOM',
             });

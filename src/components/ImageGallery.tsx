@@ -1,7 +1,5 @@
-import React, { useRef, useState } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import YouTube from 'react-youtube';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -11,18 +9,22 @@ import './ImageGalery.css';
 
 // import required modules
 import { Navigation } from 'swiper';
+import Vote from './Vote';
 
 export default function ImageGallery({
   images,
   title,
   overview,
   videos,
+  rating,
 }: {
   images: string[];
   videos?: string[];
   title: string;
   overview: string;
+  rating: number;
 }) {
+  console.log(images);
   const imageSlides = images.map((i) => (
     <SwiperSlide key={i}>
       <img src={i} />
@@ -48,16 +50,29 @@ export default function ImageGallery({
 
   return (
     <>
-      <Swiper
-        navigation={true}
-        modules={[Navigation]}
-        loop
-        className='mySwiper'
-      >
-        <h1>{title}</h1>
-        {imageSlides}
-        {videoSlides}
-      </Swiper>
+      {images.length > 0 ? (
+        <Swiper
+          navigation={true}
+          modules={[Navigation]}
+          loop
+          className='mySwiper'
+        >
+          <h1>{title}</h1>
+          <Vote rating={rating} />
+          {imageSlides}
+          {videoSlides}
+        </Swiper>
+      ) : (
+        <div className='fallback'>
+          <img
+            className={'noImg'}
+            src='../src/assets/picture-not-available.webp'
+            alt='picture not available'
+          />
+          <h1>{title}</h1>
+          <Vote rating={rating} />
+        </div>
+      )}
     </>
   );
 }

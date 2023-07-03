@@ -1,15 +1,17 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
+import './Skeleton.css';
 
 const w = window.innerWidth;
 const h = window.innerHeight;
 
 const MoviePageSkeleton = (props: { [key: string]: unknown }) => (
   <ContentLoader
+    className='skeleton'
     speed={2}
     width={w}
     height={h / 2}
-    viewBox='0 0 1000 700'
+    viewBox='0 100 1000 700'
     backgroundColor='#000000'
     foregroundColor='#4b4949'
     {...props}

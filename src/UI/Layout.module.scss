@@ -1,0 +1,17 @@
+.layout {
+  width: 100%;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  grid-template-rows: 6rem minmax(0, 1fr);
+
+  .sidebar {
+    grid-row: 1/-1;
+  }
+}
+@media screen and (width < 500px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+}
