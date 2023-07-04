@@ -13,6 +13,7 @@ const App = () => {
   const state = useContext(MovieContext).state;
   const page = state.page;
   const genre = state.genre;
+  const sort = state.sort;
 
   // if (!genre) {
   //   API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
@@ -27,7 +28,6 @@ const App = () => {
     try {
       const res = await fetch(AUTH_URL);
       const data = await res.json();
-      console.log(data);
       sessionStorage.setItem('sID', data.guest_session_id);
     } catch (error) {
       console.log(error);
@@ -53,9 +53,11 @@ const App = () => {
 
           let API_URL;
           if (!genre) {
-            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc`;
+            //SORTING
+
+            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=${sort}`;
           } else {
-            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=popularity.desc&with_genres=${genre}`;
+            API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=${sort}&with_genres=${genre}`;
           }
 
           //  API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
@@ -98,7 +100,7 @@ const App = () => {
         }
       }
     },
-    [dispatch, genre, page]
+    [dispatch, genre, page, sort]
   );
 
   useEffect(() => {

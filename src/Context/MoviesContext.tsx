@@ -13,12 +13,6 @@ export const MovieContext = createContext<MovieContextObj>(
   {} as MovieContextObj
 );
 
-export const randomMovie = (movies: Movie[]) => {
-  const randomNumber = Math.floor(Math.random() * 20);
-  const randomMovie = movies[randomNumber];
-  console.log(randomMovie);
-};
-
 const getMovieImgs = async (id: number): Promise<string[]> => {
   // get the movie images and return the array of img URLs
   const bearer = sessionStorage.getItem('bearer');
@@ -106,9 +100,6 @@ interface MoviesState {
   searchQuery?: string;
   error?: string;
   sidebarOpen: boolean;
-  random: boolean;
-  showSort: boolean;
-  sort: string;
 }
 
 type MovieActions =
@@ -128,9 +119,6 @@ type MovieActions =
   | ToggleSidebar
   | SetError
   | SetSearchQuery
-  | SetRandom
-  | ToggleSort
-  | SetSort
   | Other;
 
 type SetMovies = {
@@ -167,7 +155,7 @@ type ToggleRandom = {
 };
 type SetGenre = {
   type: 'SET_GENRE';
-  payload: number | null;
+  payload: number;
 };
 type SetLoading = {
   type: 'SET_LOADING';
@@ -189,17 +177,6 @@ type SetSearchQuery = {
 
 type SetError = {
   type: 'SET_ERROR';
-  payload: string;
-};
-type SetRandom = {
-  type: 'SET_RANDOM';
-  payload: boolean;
-};
-type ToggleSort = {
-  type: 'TOGGLE_SORT';
-};
-type SetSort = {
-  type: 'SET_SORT';
   payload: string;
 };
 
@@ -296,21 +273,6 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         ...state,
         searchQuery: action.payload,
       };
-    case 'SET_RANDOM':
-      return {
-        ...state,
-        random: action.payload,
-      };
-    case 'TOGGLE_SORT':
-      return {
-        ...state,
-        showSort: !state.showSort,
-      };
-    case 'SET_SORT':
-      return {
-        ...state,
-        sort: action.payload,
-      };
     case 'OTHER':
       return { ...state };
     default:
@@ -328,9 +290,6 @@ const initialState: MoviesState = {
   loading: false,
   sidebarOpen: false,
   favorites: [],
-  random: false,
-  showSort: false,
-  sort: 'popularity.desc',
 };
 
 export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {

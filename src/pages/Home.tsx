@@ -2,7 +2,9 @@ import classes from './Home.module.css';
 import Movies from '../components/Movies';
 import { useContext } from 'react';
 import { MovieContext } from '../Store/MoviesContext';
+import Sorting from '../components/Sorting';
 const Home = () => {
+  console.log('home render');
   const state = useContext(MovieContext).state;
   return (
     <div
@@ -12,7 +14,7 @@ const Home = () => {
           : `${classes.home}`
       }
     >
-      <Movies />
+      {<Sorting />} <Movies />
     </div>
   );
 };

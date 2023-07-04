@@ -1,0 +1,26 @@
+.sorting {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 1rem;
+  visibility: hidden;
+}
+.sorting select {
+  background-color: var(--accent);
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.sorting.show {
+  animation: sort 400ms forwards;
+}
+
+@keyframes sort {
+  from {
+    visibility: hidden;
+    opacity: 0;
+  }
+  to {
+    visibility: visible;
+    opacity: 1;
+  }
+}/*# sourceMappingURL=Sorting.module.css.map */

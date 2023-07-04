@@ -56,12 +56,16 @@
     gap: 0.5rem;
   }
 
+  .year {
+    font-size: 1.2rem;
+  }
+
   h3 {
     margin-top: 0;
     font-size: 1.8rem;
     font-weight: 500;
     height: 100%;
-    width: 90%;
+    width: 80%;
     text-overflow: ellipsis;
   }
   span:not(.cardLang) {
