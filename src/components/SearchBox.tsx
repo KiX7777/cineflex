@@ -1,5 +1,5 @@
 import { MovieContext } from '../Store/MoviesContext';
-import classes from './searchBox.module.css';
+import classes from './SearchBox.module.css';
 import { Movie, FetchedMov } from './Movies';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
