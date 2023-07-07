@@ -318,10 +318,20 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
   }
 };
 const localPage = sessionStorage.getItem('page') as string;
+const params = new URLSearchParams(window.location.search);
+const pageParam = params.get('page');
+console.log(pageParam);
+
+let curPage;
+if (pageParam) {
+  curPage = +pageParam;
+} else {
+  localPage ? (curPage = +localPage) : 1;
+}
 
 const initialState: MoviesState = {
   movies: [],
-  page: +localPage || 1,
+  page: curPage as number,
   totalPages: 0,
   genre: null,
   randomModal: false,
