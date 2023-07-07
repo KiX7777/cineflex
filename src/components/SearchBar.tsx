@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import SearchBox from './SearchBox';
 import classes from './SearchBar.module.css';
 import { MovieContext } from '../Store/MoviesContext';

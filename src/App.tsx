@@ -1,15 +1,14 @@
-import { Routes, Route, useSearchParams, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Layout from './UI/Layout';
 import MoviePage from './pages/MoviePage';
 import { Movie } from './components/Movies';
 import { FetchedMov } from './components/Movies';
-import { useEffect, useContext, useCallback, useState } from 'react';
+import { useEffect, useContext, useCallback } from 'react';
 import { MovieContext } from './Store/MoviesContext';
 
 const App = () => {
   const { dispatch } = useContext(MovieContext);
-  const navigate = useNavigate();
   const state = useContext(MovieContext).state;
   const page = state.page;
   const genre = state.genre;

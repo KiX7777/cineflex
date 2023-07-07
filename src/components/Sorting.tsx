@@ -1,4 +1,4 @@
-import React, { useContext, useState, memo } from 'react';
+import { useContext, memo } from 'react';
 import classes from './Sorting.module.css';
 import { MovieContext } from '../Store/MoviesContext';
 

@@ -22,7 +22,7 @@
   border-bottom-right-radius: 1rem;
   background-color: black;
   color: var(--fcDark);
-  padding: 2rem;
+  padding: 1rem;
   filter: drop-shadow(1px 2px 5px rgb(38, 208, 206, 0.3));
   font-size: 2cqi;
   z-index: 2;

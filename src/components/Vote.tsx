@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from './Vote.module.css';
 
 const Vote = ({ rating }: { rating: number | undefined }) => {

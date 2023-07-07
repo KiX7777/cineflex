@@ -171,6 +171,9 @@
   .moviePage {
     gap: 5rem;
   }
+  .moviePage .interactionBtns {
+    align-items: flex-start;
+  }
   .moviePage .backdrop {
     background-position: center;
   }

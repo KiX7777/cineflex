@@ -57,7 +57,6 @@ const GenreSelector = () => {
   //   }
   // };
   const dispatch = useContext(MovieContext).dispatch;
-  const state = useContext(MovieContext).state;
   // const page = useContext(MovieContext).state.page;
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -201,6 +201,10 @@
 @media screen and (width <500px) {
   .moviePage {
     gap: 5rem;
+
+    .interactionBtns {
+      align-items: flex-start;
+    }
     .backdrop {
       background-position: center;
 

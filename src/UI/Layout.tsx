@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../components/Sidebar';
 import classes from './Layout.module.css';
 import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';

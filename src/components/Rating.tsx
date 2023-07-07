@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import classes from './Rating.module.css';
 import { useState } from 'react';
 import { MovieContext } from '../Store/MoviesContext';
@@ -57,11 +57,10 @@ const Rating = ({
           handleStarHover(i + 1);
         }}
         onMouseLeave={handleMouseLeave}
-        onClick={(e) => {
-          console.log(i + 1);
+        onClick={() => {
           setsetRating(i + 1);
-
-          rate(id, i + 1);
+          const rating = i + 1;
+          rate(id as number, rating);
           setTimeout(() => {
             rated();
           }, 500);

@@ -1,9 +1,8 @@
 import classes from './Movies.module.css';
-import { useEffect, useState, useCallback, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import MovieCard from './MovieCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MovieContext } from '../Store/MoviesContext';
-import RandomModal from './RandomModal';
 
 export type Movie = {
   id: number;
@@ -36,16 +35,13 @@ export type FetchedMov = {
 const Movies = () => {
   const state = useContext(MovieContext).state;
   const [searchParams, setSearchParams] = useSearchParams();
-  const genre = state.genre;
   const loading = state.loading;
   const random = state.random;
-  const rated = useContext(MovieContext).getRated;
   const movies = state.movies;
   const page = state.page;
   const totalPages = state.totalPages;
   const navigate = useNavigate();
   // let API_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=cbeefb25dae4f9f99bc31cd0e71333f9&page=${page}`;
-  let API_URL: string;
 
   const { dispatch } = useContext(MovieContext);
 

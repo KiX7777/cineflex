@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import { MovieContext } from '../Store/MoviesContext';
 import Sorting from '../components/Sorting';
 const Home = () => {
-  console.log('home render');
   const state = useContext(MovieContext).state;
   return (
     <div

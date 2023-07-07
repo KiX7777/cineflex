@@ -1,6 +1,5 @@
-import SearchBox from './SearchBox';
 import classes from './Sidebar.module.css';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { MovieContext } from '../Store/MoviesContext';
 const Sidebar = () => {
@@ -9,7 +8,6 @@ const Sidebar = () => {
   const page = state.page;
   const dispatch = useContext(MovieContext).dispatch;
   const open = state.sidebarOpen;
-  const [, setSearchParams] = useSearchParams();
   return (
     <div
       className={

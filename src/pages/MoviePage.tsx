@@ -1,8 +1,7 @@
 import { useContext, useEffect, useCallback, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MovieContext } from '../Store/MoviesContext';
 import classes from './MoviePage.module.css';
-import { genreMap, getCookie } from '../util/helpers';
 import Rating from '../components/Rating';
 import { Movie } from '../components/Movies';
 import ImageGallery from '../components/ImageGallery';
@@ -113,16 +112,6 @@ const MoviePage = () => {
   }, [id, getMovie]);
 
   //convert language code to emoji flags
-
-  //get production companies for the movie
-  const productionComps = movie?.productionCompanies.map((comp) => {
-    return (
-      <div key={comp.id}>
-        {/* <img src={`https://image.tmdb.org/t/p/w45${comp.logo_path}`} /> */}
-        <p>{comp.name}</p>
-      </div>
-    );
-  });
 
   if (!movie) {
     return <MoviePageSkeleton />;
