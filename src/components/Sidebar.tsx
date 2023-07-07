@@ -59,13 +59,13 @@ const Sidebar = () => {
             </g>
           </svg>
         </button>
-        <button
+        {/* <button
           onClick={() => {
             console.log(state);
           }}
         >
           STATE
-        </button>
+        </button> */}
         {state.favorites.length > 0 && (
           <button
             onClick={() => {

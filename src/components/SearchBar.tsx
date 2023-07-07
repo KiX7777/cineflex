@@ -2,17 +2,14 @@ import { useContext } from 'react';
 import SearchBox from './SearchBox';
 import classes from './SearchBar.module.css';
 import { MovieContext } from '../Store/MoviesContext';
+import logo from '../assets/cineflex.webp';
 
 const SearchBar = () => {
   const dispatch = useContext(MovieContext).dispatch;
   const open = useContext(MovieContext).state.sidebarOpen;
   return (
     <header className={classes.searchBar}>
-      <img
-        className={classes.logo}
-        src='../src/assets/cineflex.webp'
-        alt='cineflex logo'
-      />
+      <img className={classes.logo} src={logo} alt='cineflex logo' />
       <SearchBox />
       <button
         className={
