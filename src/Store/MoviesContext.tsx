@@ -327,7 +327,7 @@ const initialState: MoviesState = {
   randomModal: false,
   loading: false,
   sidebarOpen: false,
-  favorites: localFavs.length > 0 ? localFavs : [],
+  favorites: localFavs ? localFavs : [],
   random: false,
   showSort: false,
   sort: 'popularity.desc',
