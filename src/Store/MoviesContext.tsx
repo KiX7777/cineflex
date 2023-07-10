@@ -317,27 +317,17 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
       return state;
   }
 };
-const localPage = sessionStorage.getItem('page') as string;
-const params = new URLSearchParams(window.location.search);
-const pageParam = params.get('page');
-console.log(pageParam);
-
-let curPage;
-if (pageParam) {
-  curPage = +pageParam;
-} else {
-  localPage ? (curPage = +localPage) : 1;
-}
+const localFavs = JSON.parse(sessionStorage.getItem('favs') as string);
 
 const initialState: MoviesState = {
   movies: [],
-  page: curPage as number,
+  page: 1,
   totalPages: 0,
   genre: null,
   randomModal: false,
   loading: false,
   sidebarOpen: false,
-  favorites: [],
+  favorites: localFavs.length > 0 ? localFavs : [],
   random: false,
   showSort: false,
   sort: 'popularity.desc',

@@ -200,7 +200,8 @@
 
 @media screen and (width <500px) {
   .moviePage {
-    gap: 5rem;
+    // gap: 5rem;
+    min-height: calc(100dvh - 6rem);
 
     .interactionBtns {
       align-items: flex-start;

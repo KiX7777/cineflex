@@ -41,19 +41,8 @@ const Movies = () => {
   const page = state.page;
   const totalPages = state.totalPages;
   const navigate = useNavigate();
-  // let API_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=cbeefb25dae4f9f99bc31cd0e71333f9&page=${page}`;
 
   const { dispatch } = useContext(MovieContext);
-
-  // useEffect(() => {
-  //   if (page === 'FAVORITES') {
-  //     const favs = state.favorites;
-  //     movies = favs;
-  //     console.log('sad');
-  //   } else {
-  //     movies = state.movies;
-  //   }
-  // }, [page]);
 
   const movieCards = movies.map((m) => (
     <MovieCard
@@ -72,7 +61,6 @@ const Movies = () => {
     const pageparam = searchParams.get('page');
 
     if (pageparam) {
-      console.log(pageparam);
       dispatch({
         type: 'SETPAGE',
         payload: pageparam === 'FAVORITES' ? 'FAVORITES' : +pageparam,
@@ -90,23 +78,12 @@ const Movies = () => {
   useEffect(() => {
     if (random) {
       const rdmMovie = movies[Math.floor(Math.random() * 20)];
-      console.log(rdmMovie);
       navigate(`movie/${rdmMovie.id}`);
     }
   }, [movies, random, navigate]);
 
   return (
     <main className={classes.movies}>
-      {/* <button>RATE</button>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          searchParams.delete('search');
-          setSearchParams({ search: 'dadada' });
-        }}
-      >
-        GET RATED
-      </button> */}
       {loading && <h1 className={classes.loadingMsg}>Loading...</h1>}
       <div className={classes.moviesContainer}>
         {movies.length > 0 && movieCards}
@@ -116,13 +93,7 @@ const Movies = () => {
         {movies.length === 0 && page == 'FAVORITES' && (
           <h1>No favorites added...</h1>
         )}
-        {/* {movies.length > 0 && page === 'FAVORITES' ? (
-          movieCards
-        ) : (
-          <h1>No favorites added...</h1>
-        )} */}
       </div>
-      {/* <button onClick={console.log('first')}>RANDOM</button> */}
       {!loading && page !== 'SEARCH' && page !== 'FAVORITES' && (
         <div className={classes.pageButtons}>
           {page !== 1 && (
@@ -169,14 +140,6 @@ const Movies = () => {
           )}
         </div>
       )}
-
-      <button
-        onClick={() => {
-          console.log(state);
-        }}
-      >
-        STATE
-      </button>
     </main>
   );
 };

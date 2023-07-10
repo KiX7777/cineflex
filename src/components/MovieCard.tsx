@@ -28,7 +28,6 @@ const MovieCard = memo(
     const navigate = useNavigate();
     const dispatch = useContext(MovieContext).dispatch;
     const year = new Date(releaseDate).getFullYear();
-    console.log(year);
     const today = new Date().toISOString().slice(0, 10);
 
     const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';

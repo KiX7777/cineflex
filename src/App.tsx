@@ -14,12 +14,6 @@ const App = () => {
   const genre = state.genre;
   const sort = state.sort;
 
-  // if (!genre) {
-  //   API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
-  // } else {
-  //   API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genre}`;
-  // }
-
   const AUTH_URL =
     'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=cbeefb25dae4f9f99bc31cd0e71333f9';
 
@@ -59,11 +53,9 @@ const App = () => {
             API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pg}&sort_by=${sort}&with_genres=${genre}`;
           }
 
-          //  API_URL = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
           const res = await fetch(API_URL, options);
 
           const data = await res.json();
-          console.log(data);
           dispatch({
             type: 'SETTOTAL',
             payload: data.total_pages,
@@ -104,7 +96,6 @@ const App = () => {
 
   useEffect(() => {
     const localSession = sessionStorage.getItem('sID');
-    console.log(localSession);
     if (!localSession) {
       createSess();
     }
@@ -115,13 +106,8 @@ const App = () => {
       return;
     } else {
       getMovies(page);
-      sessionStorage.setItem('page', `${page}`);
     }
   }, [getMovies, page]);
-
-  // useEffect(() => {
-  //   return () => {};
-  // }, []);
 
   return (
     <>

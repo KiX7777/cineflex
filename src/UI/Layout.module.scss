@@ -1,5 +1,6 @@
 .layout {
   width: 100%;
+  overflow-x: hidden;
   min-height: 100dvh;
   display: grid;
   grid-template-columns: 6rem 1fr;

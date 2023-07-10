@@ -21,7 +21,6 @@ export default function ImageGallery({
   overview: string;
   rating: number;
 }) {
-  console.log(images);
   const imageSlides = images.map((i) => (
     <SwiperSlide key={i}>
       <img src={i} />

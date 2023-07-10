@@ -8,6 +8,7 @@ const Sidebar = () => {
   const page = state.page;
   const dispatch = useContext(MovieContext).dispatch;
   const open = state.sidebarOpen;
+  const random = state.random;
   return (
     <div
       className={
@@ -18,7 +19,6 @@ const Sidebar = () => {
         <button
           className={classes.homeBtn}
           onClick={() => {
-            navigate('/');
             dispatch({
               type: 'SET_RANDOM',
               payload: false,
@@ -26,12 +26,17 @@ const Sidebar = () => {
             dispatch({
               type: 'CLOSE_SIDEBAR',
             });
-            if (state.page === 'FAVORITES' || state.page === 'SEARCH') {
+            if (
+              state.page === 'FAVORITES' ||
+              state.page === 'SEARCH' ||
+              random
+            ) {
               dispatch({
                 type: 'SETPAGE',
                 payload: 1,
               });
             }
+            navigate('/');
           }}
         >
           <svg
@@ -59,18 +64,11 @@ const Sidebar = () => {
             </g>
           </svg>
         </button>
-        {/* <button
-          onClick={() => {
-            console.log(state);
-          }}
-        >
-          STATE
-        </button> */}
+
         {state.favorites.length > 0 && (
           <button
             onClick={() => {
               const favs = state.favorites;
-              console.log(favs);
               // navigate('/?page=FAVORITES');
               navigate('/');
               dispatch({
@@ -86,10 +84,6 @@ const Sidebar = () => {
                 payload: favs,
               });
               dispatch({ type: 'SET_SEARCH', payload: '' });
-
-              // dispatch({
-              //   state
-              // })
             }}
             className={
               page === 'FAVORITES'
