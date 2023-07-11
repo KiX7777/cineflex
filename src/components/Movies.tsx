@@ -38,9 +38,11 @@ const Movies = () => {
   const loading = state.loading;
   const random = state.random;
   const movies = state.movies;
+  const genre = state.genre;
   const page = state.page;
   const totalPages = state.totalPages;
   const navigate = useNavigate();
+  const sort = state.sort;
 
   const { dispatch } = useContext(MovieContext);
 
@@ -72,8 +74,12 @@ const Movies = () => {
     setSearchParams({
       ...(state.searchQuery && { search: state.searchQuery }),
       ...(page !== 1 && page !== 'SEARCH' && { page: `${page}` }),
+      ...(sort !== 'popularity.desc' && { sort: sort }),
+      ...(genre && { genre: `${genre}` }),
     });
-  }, [setSearchParams, state.searchQuery, searchParams, page]);
+
+    sessionStorage.setItem('page', JSON.stringify(page));
+  }, [setSearchParams, state.searchQuery, searchParams, page, sort, genre]);
 
   useEffect(() => {
     if (random) {

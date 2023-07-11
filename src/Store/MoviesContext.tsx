@@ -127,6 +127,7 @@ type MovieActions =
   | CloseSidebar
   | ToggleSidebar
   | SetError
+  | ResetGenre
   | SetSearchQuery
   | SetRandom
   | ToggleSort
@@ -168,6 +169,9 @@ type ToggleRandom = {
 type SetGenre = {
   type: 'SET_GENRE';
   payload: number | null;
+};
+type ResetGenre = {
+  type: 'RESET_GENRE';
 };
 type SetLoading = {
   type: 'SET_LOADING';
@@ -251,6 +255,14 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
         ...state,
         page: action.payload,
       };
+
+    case 'RESET_GENRE': {
+      return {
+        ...state,
+        genre: null,
+        page: 1,
+      };
+    }
     case 'SETTOTAL':
       return {
         ...state,
@@ -318,19 +330,23 @@ const movieReducer = (state: MoviesState, action: MovieActions) => {
   }
 };
 const localFavs = JSON.parse(sessionStorage.getItem('favs') as string);
+const params = new URLSearchParams(window.location.search);
+const pageparam = params.get('page');
+const sortparam = params.get('sort');
+const genreparam = params.get('genre');
 
 const initialState: MoviesState = {
   movies: [],
-  page: 1,
+  page: pageparam ? +pageparam : 1,
   totalPages: 0,
-  genre: null,
+  genre: genreparam ? +genreparam : null,
   randomModal: false,
   loading: false,
   sidebarOpen: false,
   favorites: localFavs ? localFavs : [],
   random: false,
   showSort: false,
-  sort: 'popularity.desc',
+  sort: sortparam ? sortparam : 'popularity.desc',
 };
 
 export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {

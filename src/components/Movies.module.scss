@@ -3,6 +3,7 @@
 .movies {
   @include flex(center, center, column);
   padding: 2rem 1rem;
+  z-index: 5;
 }
 
 .moviesContainer {

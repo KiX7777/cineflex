@@ -14,7 +14,12 @@
     color: var(--fcDark);
     font-size: 2rem;
   }
-
+  .btns {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+  }
   button {
     font-size: 1.6rem;
     padding: 1rem;
@@ -36,6 +41,15 @@
 }
 .radioOption:not(:last-of-type) {
   margin-bottom: 0.5rem;
+}
+
+@media screen and (width < 500px) {
+  .genreForm {
+    .btns {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {

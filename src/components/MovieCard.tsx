@@ -43,10 +43,17 @@ const MovieCard = memo(
       >
         <img
           src={`${IMG_PATH + poster}`}
+          // src='../src/assets/noimg.svg.webp'
           alt={title}
-          onError={(e) => {
-            e.currentTarget.src = '../src/assets/noimg.svg.webp';
+          onLoad={(e) => {
+            const img = e.target as HTMLImageElement;
+            img.src = `${IMG_PATH + poster}`;
           }}
+          // onError={(e) => {
+          //   const img = e.target as HTMLImageElement;
+          //   img.onerror = null;
+          //   img.src = '../src/assets/noimg.svg.webp';
+          // }}
         />
         <div className={classes.movieInfo}>
           <h3>{title}</h3>

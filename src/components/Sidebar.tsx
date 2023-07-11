@@ -1,7 +1,9 @@
 import classes from './Sidebar.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { MovieContext } from '../Store/MoviesContext';
+import favorites from '../assets/favorites.svg';
+
 const Sidebar = () => {
   const state = useContext(MovieContext).state;
   const navigate = useNavigate();
@@ -9,6 +11,8 @@ const Sidebar = () => {
   const dispatch = useContext(MovieContext).dispatch;
   const open = state.sidebarOpen;
   const random = state.random;
+  const params = useLocation().pathname;
+  const isMoviePage = params.startsWith('/movie');
   return (
     <div
       className={
@@ -17,6 +21,7 @@ const Sidebar = () => {
     >
       <div className={classes.sidebarBtns}>
         <button
+          aria-label='Home'
           className={classes.homeBtn}
           onClick={() => {
             dispatch({
@@ -64,12 +69,11 @@ const Sidebar = () => {
             </g>
           </svg>
         </button>
-
         {state.favorites.length > 0 && (
           <button
+            aria-label='Favorites'
             onClick={() => {
               const favs = state.favorites;
-              // navigate('/?page=FAVORITES');
               navigate('/');
               dispatch({
                 type: 'SET_RANDOM',
@@ -91,10 +95,11 @@ const Sidebar = () => {
                 : `${classes.favoritesBtn}`
             }
           >
-            <img src='../src/assets/favorites.svg' />
+            <img src={favorites} />
           </button>
         )}
         <button
+          aria-label='Random'
           onClick={() => {
             dispatch({
               type: 'TOGGLE_RANDOM',
@@ -138,8 +143,9 @@ const Sidebar = () => {
             </g>
           </svg>
         </button>
-        {typeof state.page !== 'string' && (
+        {typeof state.page !== 'string' && !isMoviePage && (
           <button
+            aria-label='Sort'
             className={classes.sortBtn}
             onClick={() => {
               dispatch({

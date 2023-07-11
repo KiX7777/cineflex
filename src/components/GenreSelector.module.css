@@ -15,6 +15,12 @@
   color: var(--fcDark);
   font-size: 2rem;
 }
+.genreForm .btns {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+}
 .genreForm button {
   font-size: 1.6rem;
   padding: 1rem;
@@ -40,6 +46,12 @@
   margin-bottom: 0.5rem;
 }
 
+@media screen and (width < 500px) {
+  .genreForm .btns {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
 @media (prefers-color-scheme: dark) {
   .genreForm p,
   .genreForm label {
