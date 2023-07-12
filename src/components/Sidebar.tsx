@@ -40,6 +40,8 @@ const Sidebar = () => {
                 type: 'SETPAGE',
                 payload: 1,
               });
+              dispatch({ type: 'RESET_GENRE' });
+              dispatch({ type: 'SET_SEARCH', payload: '' });
             }
             navigate('/');
           }}

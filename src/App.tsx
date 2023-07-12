@@ -1,14 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Layout from './UI/Layout';
+import { useLocation } from 'react-router-dom';
 import MoviePage from './pages/MoviePage';
 import { Movie } from './components/Movies';
 import { FetchedMov } from './components/Movies';
 import { useEffect, useContext, useCallback } from 'react';
 import { MovieContext } from './Store/MoviesContext';
+import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   const { dispatch } = useContext(MovieContext);
+  const location = useLocation();
   const state = useContext(MovieContext).state;
   const page = state.page;
   const genre = state.genre;
@@ -112,11 +115,13 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/movie/:id' element={<MoviePage />} />
-          <Route path='*' element={<h1>404 not found...</h1>} />
-        </Routes>
+        <AnimatePresence mode='wait'>
+          <Routes location={location} key={location.pathname}>
+            <Route path='/' element={<Home />} />
+            <Route path='/movie/:id' element={<MoviePage />} />
+            <Route path='*' element={<h1>404 not found...</h1>} />
+          </Routes>
+        </AnimatePresence>
       </Layout>
     </>
   );

@@ -2,19 +2,40 @@ import { useContext } from 'react';
 import classes from './RandomModal.module.css';
 import { MovieContext } from '../Store/MoviesContext';
 import GenreSelector from './GenreSelector';
+import { motion } from 'framer-motion';
+
+const modalVariants = {
+  hidden: {
+    opacity: 0,
+    backdropFilter: 'blur(0)',
+  },
+  visible: {
+    opacity: 1,
+    backdropFilter: 'blur(5px)',
+
+    transition: {
+      duration: 0.5,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
 
 const RandomModal = () => {
-  const randomMenu = useContext(MovieContext).state.randomModal;
   const dispatch = useContext(MovieContext).dispatch;
   return (
-    <>
-      <div
-        className={
-          randomMenu
-            ? `${classes.randomModal} ${classes.open}`
-            : `${classes.randomModal}`
-        }
-      >
+    <motion.div
+      className={classes.modal}
+      variants={modalVariants}
+      animate='visible'
+      initial='hidden'
+      exit='hidden'
+    >
+      <div className={classes.randomModal}>
         <GenreSelector />
 
         <button
@@ -40,19 +61,16 @@ const RandomModal = () => {
         </button>
       </div>
 
-      <div
+      <motion.div
+        variants={modalVariants}
         onClick={() => {
           dispatch({
             type: 'CLOSERANDOM',
           });
         }}
-        className={
-          randomMenu
-            ? `${classes.backdrop} ${classes.open}`
-            : `${classes.backdrop}`
-        }
-      ></div>
-    </>
+        className={classes.backdrop}
+      ></motion.div>
+    </motion.div>
   );
 };
 

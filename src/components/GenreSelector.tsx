@@ -12,7 +12,6 @@ const GenreSelector = () => {
   const url = useLocation().pathname;
   const formRef = useRef<HTMLFormElement>(null);
   const isMoviePage = url.startsWith('/movie');
-  console.log(isMoviePage);
   // const page = useContext(MovieContext).state.page;
 
   const handleSubmit = async (e: React.FormEvent) => {

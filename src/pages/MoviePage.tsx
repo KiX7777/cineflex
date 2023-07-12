@@ -6,6 +6,8 @@ import Rating from '../components/Rating';
 import { Movie } from '../components/Movies';
 import ImageGallery from '../components/ImageGallery';
 import { getFlag } from '../util/helpers';
+import { containerVariants } from './Home';
+import { motion } from 'framer-motion';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
@@ -117,7 +119,13 @@ const MoviePage = () => {
     return <MoviePageSkeleton />;
   } else {
     return (
-      <div className={classes.moviePage}>
+      <motion.div
+        className={classes.moviePage}
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
+        exit='exit'
+      >
         {movie?.images && (
           <ImageGallery
             images={movie?.images as string[]}
@@ -224,7 +232,7 @@ const MoviePage = () => {
             ></AddToCalendarButton>
           )}
         </div>
-      </div>
+      </motion.div>
     );
   }
 };

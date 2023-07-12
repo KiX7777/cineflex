@@ -29,7 +29,6 @@ const SearchBox = () => {
         options
       );
       const data = await res.json();
-      console.log(data);
 
       if (data.results.length === 0) {
         dispatch({ type: 'SET_LOADING', payload: false });
@@ -38,7 +37,6 @@ const SearchBox = () => {
         return;
       }
 
-      console.log(data);
       dispatch({
         type: 'SETTOTAL',
         payload: data.total_pages,
@@ -63,7 +61,6 @@ const SearchBox = () => {
           poster: mov.poster_path,
         };
         mvs.push(movie);
-        console.log(mvs);
 
         dispatch({
           type: 'SETMOV',
